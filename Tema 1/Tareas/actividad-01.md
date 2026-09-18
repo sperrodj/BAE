@@ -12,9 +12,7 @@ No es necesario tener conocimientos previos. El objetivo es realizar una primera
 
 - Trabajo por parejas.
 - Duración aproximada: entre 80 y 90 minutos.
-- El trabajo se comenzará durante la presentación del módulo.
-- Se continuará durante la siguiente sesión.
-- Cada pareja entregará un documento.
+- Cada pareja entregará el documento elaborado de forma individual.
 - Posteriormente, el documento se transformará a Markdown y se incorporará al repositorio de actividades.
 
 ## Formato de entrega inicial
@@ -151,7 +149,7 @@ La respuesta deberá tener entre 100 y 150 palabras.
 
 Todas las parejas investigarán el **modelo relacional**.
 
-Además, la profesora asignará a cada pareja uno de estos modelos:
+Además, elegid uno de estos modelos:
 
 - Documental.
 - Clave-valor.
@@ -241,33 +239,6 @@ Redactad una conclusión conjunta respondiendo:
 4. ¿Qué ventaja tiene SQLite?
 5. ¿Qué concepto os ha resultado más difícil?
 6. ¿Qué os gustaría aprender durante el módulo?
-
-La conclusión deberá tener una extensión mínima de **200 palabras**.
-
-## 7. Fuentes consultadas
-
-Incluid todas las páginas utilizadas.
-
-Para cada fuente indicad:
-
-- Autor u organización.
-- Título de la página.
-- Enlace.
-- Fecha de consulta.
-- Apartado para el que se utilizó.
-
-Ejemplo:
-
-> SQLite. *About SQLite*.  
-> <https://www.sqlite.org/about.html>  
-> Consultado el 17 de septiembre de 2026.  
-> Utilizado para investigar las características de SQLite.
-
-Como mínimo deberán utilizarse:
-
-- Dos páginas oficiales de SGBD.
-- Dos fuentes adicionales fiables.
-- Un mínimo total de cuatro fuentes.
 
 ## Requisitos del documento
 
