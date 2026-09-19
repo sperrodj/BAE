@@ -1,7 +1,5 @@
 # Resumen. Modelo entidad/relación
 
-**Bases de Datos · 1.º de DAM · Unidad 2**
-
 El modelo entidad/relación permite describir qué información necesita un sistema, cómo se relaciona y qué reglas debe cumplir. Se construye antes de decidir cómo se crearán las tablas en un SGBD.
 
 ## Índice
