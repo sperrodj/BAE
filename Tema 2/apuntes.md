@@ -1,7 +1,5 @@
 # Tema 2. Diseño conceptual: modelo entidad/relación
 
-**Bases de Datos · 1.º de DAM**
-
 En la unidad anterior estudiamos cómo se almacena la información y para qué sirven los sistemas gestores. Antes de construir una base de datos, necesitamos decidir qué información representa el problema y qué reglas debe cumplir.
 
 El diseño conceptual permite expresar esas decisiones mediante entidades, atributos y relaciones. En este tema aprenderemos a interpretar sus elementos y a construir modelos comprensibles, acompañados de ejemplos y reglas escritas.
