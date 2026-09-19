@@ -52,24 +52,6 @@ Equivocarse forma parte del proceso. Lo importante será aprender a leer los err
 
 ---
 
-## 🧰 Herramientas
-
-A lo largo del curso podremos utilizar:
-
-- un sistema gestor de bases de datos relacional;
-- una herramienta gráfica de administración;
-- un editor de código;
-- terminal y cliente SQL;
-- Git y GitHub;
-- Markdown y diagramas para documentar los proyectos.
-
-Las herramientas concretas y sus instrucciones de instalación se indicarán antes de cada práctica.
-
-> [!TIP]
-> No te limites a pulsar botones en una interfaz gráfica. Comprender las sentencias que se ejecutan te permitirá trabajar con cualquier herramienta.
-
----
-
 ## 🎯 El objetivo final
 
 No se trata solo de aprobar una asignatura ni de aprender una lista de comandos. El objetivo es que puedas enfrentarte a los datos de una aplicación y tomar decisiones razonadas:
