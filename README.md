@@ -2,7 +2,6 @@
 
 > **1º de Desarrollo de Aplicaciones Multiplataforma · DAM**
 
-![Estado](https://img.shields.io/badge/estado-en%20construcción-f4a261)
 ![Nivel](https://img.shields.io/badge/nivel-1º%20DAM-457b9d)
 ![Lenguaje](https://img.shields.io/badge/lenguaje-SQL-6c63ff)
 
