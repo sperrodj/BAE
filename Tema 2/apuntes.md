@@ -1,25 +1,31 @@
 # Tema 2. Diseño conceptual: modelo entidad/relación
 
-> **Módulo:** Bases de Datos · **Curso:** 1.º DAM  
-> Del problema real a un modelo que podamos comprender, revisar y convertir posteriormente en una base de datos.
+**Bases de Datos · 1.º de DAM**
 
-## Objetivos de aprendizaje
+En la unidad anterior estudiamos cómo se almacena la información y para qué sirven los sistemas gestores. Antes de construir una base de datos, necesitamos decidir qué información representa el problema y qué reglas debe cumplir.
 
-Al finalizar este tema serás capaz de:
+El diseño conceptual permite expresar esas decisiones mediante entidades, atributos y relaciones. En este tema aprenderemos a interpretar sus elementos y a construir modelos comprensibles, acompañados de ejemplos y reglas escritas.
 
-- identificar entidades, atributos, relaciones y restricciones a partir de un enunciado;
-- distinguir tipos de entidad y sus ocurrencias;
-- seleccionar identificadores adecuados;
-- representar atributos simples, compuestos, multivaluados y derivados;
-- expresar cardinalidades mínimas y máximas;
-- modelar relaciones binarias, recursivas y n-arias;
-- reconocer dependencias de existencia e identificación;
-- utilizar especialización, generalización y agregación cuando aporten claridad;
-- detectar decisiones incorrectas o ambiguas en un diagrama;
-- documentar reglas de negocio que el modelo gráfico no pueda representar.
+## Índice
 
----
+- [1. Antes de dibujar: comprender el problema](#apartado-1)
+- [2. El modelo entidad/relación](#apartado-2)
+- [3. Entidades](#apartado-3)
+- [4. Atributos](#apartado-4)
+- [5. Identificadores y claves](#apartado-5)
+- [6. Relaciones](#apartado-6)
+- [7. Cardinalidad y participación](#apartado-7)
+- [8. Entidades fuertes y débiles](#apartado-8)
+- [9. Entidades asociativas](#apartado-9)
+- [10. Modelo E/R extendido](#apartado-10)
+- [11. Agregación](#apartado-11)
+- [12. Restricciones semánticas](#apartado-12)
+- [13. Cómo construir un modelo conceptual](#apartado-13)
+- [14. Errores frecuentes](#apartado-14)
+- [15. Ejemplo resuelto: una academia](#apartado-15)
+- [16. Resumen](#apartado-16)
 
+<a id="apartado-1"></a>
 ## 1. Antes de dibujar: comprender el problema
 
 Diseñar una base de datos no empieza creando tablas. Empieza comprendiendo una realidad concreta, denominada a veces **universo del discurso** o **minimundo**.
@@ -38,7 +44,6 @@ Antes de elegir símbolos debemos resolver preguntas:
 
 Un buen diagrama no elimina estas preguntas: nos obliga a descubrirlas y contestarlas.
 
-> [!IMPORTANT]
 > Un modelo es una representación simplificada de una realidad para un propósito. No intenta almacenar todo lo que sabemos, sino lo necesario para resolver el problema.
 
 ### 1.1. Fases del diseño
@@ -48,7 +53,7 @@ Un buen diagrama no elimina estas preguntas: nos obliga a descubrirlas y contest
 3. **Diseño lógico:** transformar el modelo conceptual al modelo elegido, por ejemplo, el relacional.
 4. **Diseño físico:** decidir estructuras de almacenamiento, índices, particiones y otros detalles del SGBD.
 
-En este tema trabajaremos principalmente el **diseño conceptual**. La transformación a tablas y la normalización se estudiarán en el siguiente.
+En este tema trabajaremos principalmente el **diseño conceptual**. La transformación a tablas y la normalización se estudiarán en temas posteriores.
 
 ### 1.2. Modelo, esquema e instancia
 
@@ -58,8 +63,8 @@ En este tema trabajaremos principalmente el **diseño conceptual**. La transform
 
 El esquema indica que `ALUMNO` tiene `correo`; una instancia concreta indica que el correo de Ana es `ana@example.test`.
 
----
 
+<a id="apartado-2"></a>
 ## 2. El modelo entidad/relación
 
 El modelo entidad/relación, o **modelo E/R**, representa la estructura conceptual de un dominio mediante:
@@ -69,13 +74,30 @@ El modelo entidad/relación, o **modelo E/R**, representa la estructura conceptu
 - **tipos de relación**;
 - **restricciones**.
 
-Fue propuesto por Peter P. Chen en 1976. Desde entonces han aparecido distintas notaciones. En estos apuntes utilizaremos principalmente los conceptos de la notación de Chen y expresaremos las cardinalidades con pares **(mínimo, máximo)**, porque hacen explícita tanto la obligatoriedad como el número máximo de participaciones.
+Existen varias notaciones para representar un modelo E/R. La de **Chen** utiliza rectángulos para las entidades, óvalos para los atributos y rombos para las relaciones. La de **pata de cuervo** expresa las cardinalidades mediante marcas en los extremos de las líneas.
 
-> [!NOTE]
+En las explicaciones indicaremos siempre los valores **(mínimo, máximo)**. Los diagramas de relaciones incluidos en este archivo utilizan pata de cuervo mediante Mermaid. La herencia se ilustra con un esquema diferente, identificado en su apartado.
+
 > Herramientas distintas pueden usar símbolos diferentes, como Chen, pata de cuervo o UML. La notación cambia; la regla de negocio representada debería ser la misma.
 
----
 
+### 2.1. Símbolos de la notación de Chen
+
+| Elemento | Representación habitual |
+|---|---|
+| Entidad fuerte | Rectángulo |
+| Relación | Rombo |
+| Atributo | Óvalo |
+| Atributo identificador | Nombre subrayado |
+| Atributo multivaluado | Óvalo doble |
+| Atributo derivado | Óvalo con trazo discontinuo |
+| Atributo compuesto | Óvalo conectado a los óvalos de sus componentes |
+| Entidad débil | Rectángulo doble |
+| Relación identificadora | Rombo doble |
+
+Estas convenciones permiten leer diagramas de Chen. No deben confundirse con las cajas y marcas de pata de cuervo utilizadas en los diagramas de este archivo.
+
+<a id="apartado-3"></a>
 ## 3. Entidades
 
 Una **entidad** es algo del dominio con existencia propia sobre lo que necesitamos conservar información. Puede ser:
@@ -94,6 +116,8 @@ No debemos confundir:
 
 En el diagrama se representan **tipos**, no cada objeto individual.
 
+> **Ejemplo:** `PRODUCTO` es un tipo de entidad. El teclado con identificador 101 es una ocurrencia. El conjunto de productos disponibles hoy constituye un conjunto de ocurrencias. En el diagrama aparece `PRODUCTO`, no un rectángulo para cada teclado.
+
 ### 3.2. Cómo nombrarlas
 
 Usaremos nombres:
@@ -102,6 +126,8 @@ Usaremos nombres:
 - mediante sustantivos claros;
 - coherentes en todo el modelo;
 - propios del dominio, evitando nombres vagos como `DATOS` o `COSAS`.
+
+Usar singular es la convención elegida en estos apuntes; lo importante es mantener nombres claros y coherentes.
 
 ### 3.3. ¿Es realmente una entidad?
 
@@ -121,8 +147,8 @@ No todas las palabras importantes de un enunciado se convierten en entidades. An
 
 Por ejemplo, `dirección` podría ser un atributo compuesto de `CLIENTE` o una entidad independiente si varias personas comparten direcciones, existen distintos tipos de dirección o necesitamos gestionarlas por separado.
 
----
 
+<a id="apartado-4"></a>
 ## 4. Atributos
 
 Un **atributo** describe una propiedad de una entidad o, en algunos casos, de una relación.
@@ -176,26 +202,35 @@ Un atributo puede no tener valor para determinadas ocurrencias. Hay que distingu
 
 Todos podrían terminar representados como ausencia de valor, pero no significan lo mismo para el negocio.
 
-### 4.6. Atributos de una relación
+### 4.6. Resumen de tipos de atributos
+
+| Criterio | Posibilidades | Ejemplo |
+|---|---|---|
+| Estructura | Simple o compuesto | Código de producto / dirección con calle y localidad |
+| Cantidad de valores | Monovaluado o multivaluado | Fecha de nacimiento / teléfonos de contacto |
+| Obtención | Almacenado o derivado | Fecha de nacimiento / edad calculada |
+| Obligatoriedad | Obligatorio u opcional | Identificador / segundo teléfono |
+
+Estas clasificaciones se combinan. Un atributo puede ser simple, monovaluado y obligatorio al mismo tiempo.
+
+Un teléfono o un código postal no debe tratarse automáticamente como una cantidad numérica: puede contener ceros iniciales o símbolos y no se utiliza para hacer sumas. En el modelo conceptual interesa describir su significado y valores admitidos; el tipo concreto del SGBD se decidirá después.
+
+### 4.7. Atributos de una relación
 
 Un atributo pertenece a una relación cuando describe el hecho que vincula las entidades, no a una de ellas por separado.
 
 En «un alumno se matricula en una edición», `fecha_matricula` y `estado` describen esa matrícula.
 
-```mermaid
-erDiagram
-    ALUMNO ||--o{ MATRICULA : realiza
-    EDICION ||--o{ MATRICULA : recibe
-    MATRICULA {
-        date fecha_matricula
-        string estado
-    }
-```
+| Alumno | Edición | Fecha de matrícula | Estado |
+|---|---|---|---|
+| Ana | BD-octubre | 2026-09-20 | Confirmada |
+| Ana | Redes-noviembre | 2026-10-15 | Pendiente |
+| Bruno | BD-octubre | 2026-09-22 | Confirmada |
 
-Este diagrama usa una entidad asociativa para poder mostrarlo con Mermaid. Conceptualmente, `fecha_matricula` y `estado` pertenecen a la asociación entre alumno y edición.
+Ana tiene dos fechas porque son dos matrículas distintas. Por eso `fecha_matricula` no describe únicamente al alumno ni únicamente a la edición. Más adelante veremos cómo representar esa asociación mediante `MATRICULA`.
 
----
 
+<a id="apartado-5"></a>
 ## 5. Identificadores y claves
 
 Un **identificador** es un atributo o conjunto mínimo de atributos cuyos valores distinguen inequívocamente cada ocurrencia de un tipo de entidad.
@@ -212,10 +247,24 @@ Un **identificador** es un atributo o conjunto mínimo de atributos cuyos valore
 
 En diseño conceptual hablaremos preferentemente de **identificadores** o claves candidatas. Las claves foráneas pertenecen al modelo relacional y aparecerán al transformar relaciones en tablas.
 
-> [!WARNING]
 > Una clave foránea no es «la clave primaria de otra entidad» dentro del diagrama conceptual. Es un mecanismo del modelo relacional para representar referencias entre tablas.
 
-### 5.2. Cómo elegir un buen identificador
+### 5.2. Ejemplo de claves candidatas
+
+Supongamos que cada producto recibe un `id_producto` y un `codigo_catalogo`, ambos obligatorios y únicos por las reglas del sistema.
+
+| Conjunto de atributos | ¿Identifica? | Interpretación |
+|---|---|---|
+| `id_producto` | Sí | Clave candidata |
+| `codigo_catalogo` | Sí | Otra clave candidata |
+| `id_producto` y `nombre` | Sí | Superclave no mínima: el nombre sobra |
+| `nombre` | No necesariamente | Dos productos pueden compartir nombre |
+
+**Mínima** no significa «la clave con menos caracteres». Significa que no podemos quitarle un atributo sin perder la capacidad de identificar.
+
+Si el sistema identifica un asiento mediante `sala` y `numero_asiento`, la combinación es un identificador compuesto: el asiento 12 puede existir en varias salas.
+
+### 5.3. Cómo elegir un buen identificador
 
 Debe ser:
 
@@ -227,8 +276,8 @@ Debe ser:
 
 Un nombre no suele ser un buen identificador. Un documento oficial tampoco siempre es adecuado: puede no existir, cambiar, contener errores o estar sujeto a restricciones de privacidad.
 
----
 
+<a id="apartado-6"></a>
 ## 6. Relaciones
 
 Una **relación** representa una asociación relevante entre ocurrencias de uno o varios tipos de entidad.
@@ -243,7 +292,7 @@ La relación debe poder leerse en ambos sentidos y producir frases coherentes.
 
 ### 6.1. Grado de una relación
 
-El **grado** indica cuántos tipos de entidad participan:
+El **grado** describe el número de participantes o papeles de la asociación. En la clasificación introductoria se distinguen:
 
 - **unaria o recursiva:** participa un tipo de entidad;
 - **binaria:** participan dos;
@@ -256,12 +305,13 @@ En una relación recursiva, el mismo tipo de entidad participa con papeles disti
 
 Ejemplo: una persona empleada puede supervisar a otras personas empleadas.
 
-```mermaid
-erDiagram
-    EMPLEADO o|--o{ EMPLEADO : supervisa
-```
+| Persona en el rol de supervisor | Persona en el rol de supervisado |
+|---|---|
+| Laura | Ana |
+| Laura | Bruno |
+| Ana | Carla |
 
-Los roles serían `supervisor` y `supervisado`.
+El mismo tipo `EMPLEADO` participa en ambos extremos. Para este ejemplo, cada empleado puede tener cero o un supervisor y puede supervisar a cero o muchos empleados. La prohibición de supervisarse a sí mismo se documenta además como regla.
 
 ### 6.3. Relaciones ternarias
 
@@ -271,8 +321,18 @@ Ejemplo: un proveedor suministra un producto para un proyecto. El precio acordad
 
 Para comprobar si puede descomponerse, debemos analizar si las relaciones binarias conservan todas las asociaciones permitidas y restricciones del enunciado.
 
----
+| Proveedor | Producto | Proyecto |
+|---|---|---|
+| P1 | Teclado | Aula Norte |
+| P1 | Ratón | Aula Sur |
+| P2 | Teclado | Aula Sur |
 
+Si guardamos solo las parejas proveedor-producto, proveedor-proyecto y producto-proyecto, todas las parejas de `P1 — Teclado — Aula Sur` aparecerían en algún registro. Sin embargo, esa combinación completa no aparece en la tabla original. Las parejas, por sí solas, no conservan toda la información.
+
+> La relación ternaria expresa el hecho conjunto: **qué proveedor suministra qué producto para qué proyecto**.
+
+
+<a id="apartado-7"></a>
 ## 7. Cardinalidad y participación
 
 La cardinalidad indica cuántas ocurrencias de una entidad pueden o deben relacionarse con una ocurrencia concreta de otra entidad.
@@ -306,10 +366,12 @@ Ejemplo:
 - Para una `EDICION`, el número de cursos relacionados es `(1,1)`.
 - Para un `CURSO`, el número de ediciones relacionadas es `(0,N)`.
 
-```mermaid
-erDiagram
-    CURSO ||--o{ EDICION : ofrece
-```
+| Punto de partida | Pregunta | Respuesta |
+|---|---|---|
+| Una edición | ¿A cuántos cursos pertenece? | Exactamente uno: `(1,1)` |
+| Un curso | ¿Cuántas ediciones puede tener? | Ninguna o varias: `(0,N)` |
+
+No hay contradicción entre un máximo `N` y un mínimo `0`: podemos permitir muchas ediciones sin exigir que exista alguna desde el momento de registrar el curso.
 
 ### 7.3. Método para calcular cardinalidades
 
@@ -320,11 +382,28 @@ No adivines mirando el dibujo. Formula dos preguntas:
 
 Después busca contraejemplos y casos límite.
 
-> [!TIP]
 > Palabras como «cada», «puede», «debe», «solo», «al menos» y «varios» suelen esconder restricciones de cardinalidad.
 
----
 
+### 7.4. Ejemplos de cardinalidad máxima
+
+| Relación | Reglas del ejemplo | Máximos |
+|---|---|---|
+| EMPLEADO tiene TARJETA | Cada empleado tiene como máximo una tarjeta activa; cada tarjeta se asigna como máximo a un empleado | `1:1` |
+| CLIENTE realiza PEDIDO | Un cliente puede realizar varios pedidos; cada pedido corresponde a un cliente | `1:N` |
+| ALUMNO cursa EDICION | Un alumno puede cursar varias ediciones y una edición puede tener varios alumnos | `N:M` |
+
+La obligatoriedad debe indicarse por separado. Por ejemplo, podemos permitir que un cliente aún no tenga pedidos, pero exigir que cada pedido tenga cliente.
+
+Las cardinalidades proceden de las reglas acordadas, no de los pocos datos disponibles hoy. Que ahora una edición tenga un solo alumno no significa que su máximo sea uno.
+
+### 7.5. Lectura de los diagramas
+
+En pata de cuervo, las marcas situadas junto a una entidad indican cuántas ocurrencias de **esa entidad** corresponden a una ocurrencia de la del extremo contrario. Los símbolos representan cero, uno o muchos y se combinan para expresar mínimos y máximos. Mermaid diferencia además relaciones identificadoras, con línea continua, y no identificadoras, con línea discontinua. [Documentación de Mermaid](https://mermaid.js.org/syntax/entityRelationshipDiagram.html).
+
+En notación de Chen con pares mínimo-máximo, es frecuente colocar junto a cada entidad su participación en la relación. Por ello, no conviene trasladar una etiqueta de un dibujo a otro sin comprobar la convención. En estos apuntes, las frases y tablas indican explícitamente cómo se interpreta cada ejemplo.
+
+<a id="apartado-8"></a>
 ## 8. Entidades fuertes y débiles
 
 Una entidad es **fuerte** cuando dispone de un identificador propio independiente.
@@ -337,18 +416,15 @@ Una entidad es **débil por identificación** cuando no puede identificarse úni
 
 Ejemplo: el número de habitación puede ser único dentro de un hotel, pero no entre todos los hoteles. Una habitación podría identificarse mediante `(hotel, numero_habitacion)`.
 
-```mermaid
-erDiagram
-    HOTEL ||--|{ HABITACION : contiene
-    HOTEL {
-        int id_hotel
-    }
-    HABITACION {
-        int numero_habitacion
-    }
-```
+| Hotel | Número de habitación | Identificación completa |
+|---|---|---|
+| H01 | 101 | `(H01, 101)` |
+| H01 | 102 | `(H01, 102)` |
+| H02 | 101 | `(H02, 101)` |
 
-`numero_habitacion` actúa como identificador parcial. La existencia de una habitación concreta depende del hotel al que pertenece.
+`numero_habitacion` actúa como identificador parcial: distingue habitaciones dentro del mismo hotel. La habitación 101 de H01 y la 101 de H02 son ocurrencias diferentes.
+
+En notación de Chen se suele representar la entidad débil con un rectángulo doble y la relación identificadora con un rombo doble.
 
 ### 8.1. Dependencia de existencia y de identificación
 
@@ -359,26 +435,26 @@ No son exactamente lo mismo:
 
 Un pedido puede depender de la existencia de un cliente según las reglas del sistema y, aun así, tener un identificador propio. Por tanto, no sería necesariamente una entidad débil por identificación.
 
----
 
+<a id="apartado-9"></a>
 ## 9. Entidades asociativas
 
 Una relación `N:M` con atributos propios o con necesidad de participar en otras relaciones suele tratarse como una **entidad asociativa**.
 
-Ejemplo: `MATRICULA` conecta `ALUMNO` y `EDICION`, y posee fecha, estado y convocatoria.
+Ejemplo: `MATRICULA` conecta `ALUMNO` y `EDICION`, y posee un identificador propio, fecha y estado. En este ejemplo se permite una sola matrícula por alumno y edición.
 
 ```mermaid
 erDiagram
-    ALUMNO ||--o{ MATRICULA : formaliza
-    EDICION ||--o{ MATRICULA : incluye
+    ALUMNO ||..o{ MATRICULA : formaliza
+    EDICION ||..o{ MATRICULA : incluye
     ALUMNO {
         int id_alumno
         string nombre
     }
     MATRICULA {
-        date fecha
-        string estado
-        int convocatoria
+        identificador id_matricula
+        fecha fecha_matricula
+        texto estado
     }
     EDICION {
         int id_edicion
@@ -386,10 +462,12 @@ erDiagram
     }
 ```
 
-La entidad asociativa no se crea «porque toda relación N:M deba ser una entidad» en el nivel conceptual. Se usa cuando el vínculo tiene identidad o comportamiento relevante, atributos propios o debe relacionarse con otros conceptos.
+Cada matrícula corresponde exactamente a un alumno y a una edición. Un alumno y una edición pueden tener cero o muchas matrículas asociadas, correspondientes a distintas ediciones o distintos alumnos, respectivamente. La unicidad de la pareja alumno-edición se documenta aparte.
 
----
+La entidad asociativa no se crea «porque toda relación N:M deba ser una entidad» en el nivel conceptual. Se usa cuando el vínculo tiene identidad o significado relevante, atributos propios o debe relacionarse con otros conceptos.
 
+
+<a id="apartado-10"></a>
 ## 10. Modelo E/R extendido
 
 El modelo E/R extendido incorpora mecanismos para representar reglas más complejas.
@@ -420,7 +498,9 @@ classDiagram
     PERSONA <|-- DOCENTE
 ```
 
-No conviene crear subclases si solo deseamos etiquetar categorías sin atributos, relaciones ni comportamientos específicos. Un atributo `tipo` podría ser suficiente.
+El esquema anterior representa herencia, no relaciones ordinarias entre entidades. La flecha apunta a la superclase.
+
+No conviene crear subclases si solo deseamos etiquetar categorías sin atributos, relaciones ni restricciones específicas. Un atributo `tipo` podría ser suficiente.
 
 ### 10.2. Especialización y generalización
 
@@ -445,6 +525,15 @@ Una persona podría ser alumno y docente a la vez; en ese caso la especializaci�
 
 Las restricciones de completitud y solapamiento son independientes. Una especialización puede ser total y solapada, total y disjunta, parcial y solapada, o parcial y disjunta.
 
+| Combinación | Interpretación |
+|---|---|
+| Total y disjunta | Toda ocurrencia pertenece exactamente a una subclase |
+| Total y solapada | Toda ocurrencia pertenece al menos a una; puede pertenecer a varias |
+| Parcial y disjunta | Puede no pertenecer a ninguna y, si pertenece, como máximo a una |
+| Parcial y solapada | Puede no pertenecer a ninguna o pertenecer a una o varias |
+
+> **Ejemplo:** si registramos personas que todavía no son alumnos ni docentes y permitimos que una persona desempeñe ambos papeles, la especialización es **parcial y solapada**.
+
 ### 10.5. Discriminador
 
 Un **discriminador** es un atributo o condición que determina la pertenencia a una subclase. Algunas pertenencias se solapan o se determinan mediante reglas complejas y no pueden expresarse con un único atributo.
@@ -453,8 +542,8 @@ Un **discriminador** es un atributo o condición que determina la pertenencia a 
 
 Una subclase puede especializarse de nuevo. Si una subclase tiene varias superclases hablamos de una **retícula** y de herencia múltiple conceptual. Debe usarse con cuidado porque complica tanto la interpretación como la transformación posterior.
 
----
 
+<a id="apartado-11"></a>
 ## 11. Agregación
 
 La **agregación** permite tratar una relación, junto con sus participantes, como una unidad conceptual que puede relacionarse con otra entidad.
@@ -464,14 +553,15 @@ Ejemplo:
 - un `EMPLEADO` trabaja en un `PROYECTO`;
 - un `RESPONSABLE` supervisa esa asignación concreta, no al empleado o al proyecto de forma aislada.
 
-Podemos conceptualizar la asignación como un objeto de nivel superior:
+Podemos representar la asignación mediante una entidad asociativa con identificador propio. En este ejemplo, cada asignación vincula un empleado, un proyecto y exactamente un responsable; cualquiera de estos puede no tener asignaciones todavía:
 
 ```mermaid
 erDiagram
-    EMPLEADO ||--o{ ASIGNACION : recibe
-    PROYECTO ||--o{ ASIGNACION : incluye
-    RESPONSABLE ||--o{ ASIGNACION : supervisa
+    EMPLEADO ||..o{ ASIGNACION : recibe
+    PROYECTO ||..o{ ASIGNACION : incluye
+    RESPONSABLE ||..o{ ASIGNACION : supervisa
     ASIGNACION {
+        identificador id_asignacion
         date fecha_inicio
         int dedicacion_porcentaje
     }
@@ -481,8 +571,8 @@ Mermaid representa aquí la agregación mediante una entidad asociativa. En nota
 
 Antes de utilizar una agregación, comprueba si una entidad asociativa explica el dominio con mayor claridad. El objetivo no es usar el símbolo más avanzado, sino comunicar correctamente la regla.
 
----
 
+<a id="apartado-12"></a>
 ## 12. Restricciones semánticas
 
 Las cardinalidades no expresan todas las reglas posibles. Ejemplos:
@@ -504,75 +594,37 @@ Una tabla de restricciones ayuda a hacerlas verificables:
 | RN-02 | Una persona no se matricula dos veces en la misma edición | MATRICULA | Alta |
 | RN-03 | Una persona no puede supervisarse a sí misma | EMPLEADO | Alta y modificación |
 
-> [!IMPORTANT]
 > Si una regla no aparece en el diagrama, en el glosario o en el catálogo de restricciones, probablemente se perderá durante la implementación.
 
----
 
-## 13. Método de trabajo
+<a id="apartado-13"></a>
+## 13. Cómo construir un modelo conceptual
 
-### Paso 1. Leer y delimitar
+### 13.1. Comprender y delimitar el problema
 
-- identifica el objetivo del sistema;
-- marca sustantivos, verbos, cantidades y condiciones;
-- distingue requisitos de ejemplos accidentales;
-- anota dudas y contradicciones.
+Primero se identifican el objetivo del sistema, los datos necesarios y las reglas. Los sustantivos ofrecen candidatos a entidades; los verbos, candidatos a relaciones. No deben convertirse automáticamente en elementos del diagrama.
 
-### Paso 2. Crear un glosario
+Un glosario evita utilizar distintas palabras para el mismo concepto o una misma palabra con significados diferentes:
 
-Define cada término antes de modelarlo:
+| Término | Significado en el sistema | Ejemplo |
+|---|---|---|
+| Curso | Oferta formativa estable | Introducción a las bases de datos |
+| Edición | Realización de un curso en unas fechas concretas | Edición de octubre |
+| Matrícula | Inscripción de un alumno en una edición | Matrícula de Ana en la edición de octubre |
 
-| Término | Definición | Ejemplo | Dudas |
-|---|---|---|---|
-| Curso | Oferta formativa estable | Bases de datos | ¿Puede retirarse? |
-| Edición | Realización de un curso en unas fechas | BD, octubre 2026 | ¿Tiene un único docente? |
+### 13.2. Proponer la estructura
 
-### Paso 3. Proponer entidades
+Se identifican las entidades y sus relaciones, se establecen los mínimos y máximos de participación y se asignan los atributos al concepto que describen. Después se revisan los identificadores y las reglas que no caben en el dibujo.
 
-Busca conceptos con identidad y ciclo de vida. Elimina duplicados y sinónimos.
+Las dudas deben anotarse. Si el enunciado no indica si puede haber varios docentes por edición, esa información debe aclararse o registrarse como una suposición del ejemplo.
 
-### Paso 4. Añadir relaciones
+### 13.3. Comprobar el modelo
 
-Convierte los verbos relevantes en asociaciones. Nómbralas para que puedan leerse como frases.
+Un modelo se valida con casos habituales y casos límite: un curso sin ediciones, una matrícula sin alumno, una persona que es docente y alumna, o dos matrículas de la misma persona en la misma edición.
 
-### Paso 5. Determinar cardinalidades
+Para cada caso, se comprueba si debería admitirse según las reglas y si el modelo expresa esa decisión. Finalmente, se lee el diagrama como frases y se contrasta con alguien que conozca el funcionamiento del sistema.
 
-Formula las dos preguntas de mínimo y máximo para cada extremo. Registra las suposiciones.
-
-### Paso 6. Incorporar atributos e identificadores
-
-Asigna cada atributo al concepto que realmente describe. Revisa dominios, opcionalidad y estabilidad de los identificadores.
-
-### Paso 7. Evaluar construcciones avanzadas
-
-Comprueba si hay:
-
-- entidades débiles;
-- relaciones recursivas o n-arias;
-- entidades asociativas;
-- especializaciones;
-- agregaciones.
-
-### Paso 8. Documentar reglas no representables
-
-Usa un catálogo de restricciones y no confíes en que «se entiende».
-
-### Paso 9. Validar con datos de ejemplo
-
-Construye pequeñas instancias y prueba:
-
-- un caso habitual;
-- los mínimos;
-- los máximos;
-- excepciones;
-- datos que deberían rechazarse.
-
-### Paso 10. Revisar con las partes interesadas
-
-Lee el diagrama como frases. Una persona conocedora del dominio debería poder confirmar o corregir las reglas sin comprender detalles del futuro SGBD.
-
----
-
+<a id="apartado-14"></a>
 ## 14. Errores frecuentes
 
 ### Convertir todos los sustantivos en entidades
@@ -611,149 +663,87 @@ Si no hay propiedades ni relaciones específicas, quizá baste con un atributo c
 
 `TABLA_USUARIOS`, `ID_FK` o `ARRAY_DATOS` describen una implementación. El modelo conceptual debería hablar el lenguaje del problema.
 
----
 
-## 15. Ejemplo integrado: academia
+<a id="apartado-15"></a>
+## 15. Ejemplo resuelto: una academia
 
-### 15.1. Reglas
+### 15.1. Descripción del problema
 
-1. La academia ofrece cursos.
-2. Un curso puede abrir cero o muchas ediciones.
-3. Cada edición corresponde exactamente a un curso.
-4. El alumnado se matricula en ediciones.
-5. Una matrícula conserva fecha, estado y convocatoria.
-6. Una persona no puede matricularse dos veces en la misma edición y convocatoria.
-7. Una edición es impartida por uno o varios docentes.
-8. Un docente puede no impartir ninguna edición temporalmente.
-9. Alumnos y docentes son tipos de persona y una persona puede asumir ambos papeles.
+Una academia ofrece cursos, como «Bases de datos» o «Desarrollo web». Cada curso puede celebrarse en distintas fechas; cada realización recibe el nombre de edición.
 
-### 15.2. Diagrama simplificado
+Un curso puede existir sin ediciones y cada edición pertenece exactamente a un curso. Los alumnos pueden matricularse en distintas ediciones, y una edición puede no tener alumnado todavía. Cada matrícula tiene identificador propio, fecha y estado, y corresponde a un único alumno y una única edición. No se admiten dos matrículas del mismo alumno en la misma edición.
+
+Cada edición debe ser impartida por uno o varios docentes. Un docente puede estar registrado aunque todavía no imparta ninguna edición.
+
+### 15.2. Entidades y atributos
+
+| Entidad | Identificador | Otros atributos del ejemplo |
+|---|---|---|
+| CURSO | `id_curso` | Nombre, descripción |
+| EDICION | `id_edicion` | Fecha de inicio, fecha de fin |
+| ALUMNO | `id_alumno` | Nombre, correo |
+| DOCENTE | `id_docente` | Nombre, especialidad |
+| MATRICULA | `id_matricula` | Fecha de matrícula, estado |
+
+Los identificadores son propios de cada tipo de entidad. Las asociaciones se expresan como relaciones; no se añaden claves foráneas en este modelo conceptual.
+
+### 15.3. Relaciones y cardinalidades
+
+| Relación | Lectura en un sentido | Lectura en el sentido contrario |
+|---|---|---|
+| CURSO ofrece EDICION | Un curso tiene de 0 a N ediciones | Una edición pertenece a 1 curso |
+| ALUMNO realiza MATRICULA | Un alumno tiene de 0 a N matrículas | Una matrícula corresponde a 1 alumno |
+| EDICION recibe MATRICULA | Una edición tiene de 0 a N matrículas | Una matrícula corresponde a 1 edición |
+| DOCENTE imparte EDICION | Un docente imparte de 0 a N ediciones | Una edición tiene de 1 a N docentes |
+
+### 15.4. Diagrama
 
 ```mermaid
 erDiagram
-    CURSO ||--o{ EDICION : ofrece
-    PERSONA ||--o| ALUMNO : puede_ser
-    PERSONA ||--o| DOCENTE : puede_ser
-    ALUMNO ||--o{ MATRICULA : realiza
-    EDICION ||--o{ MATRICULA : recibe
-    DOCENTE }o--|{ EDICION : imparte
-
-    CURSO {
-        int id_curso
-        string nombre
-    }
-    EDICION {
-        int id_edicion
-        date fecha_inicio
-        date fecha_fin
-    }
-    PERSONA {
-        int id_persona
-        string nombre
-        string correo
-    }
-    ALUMNO {
-        string numero_expediente
-    }
-    DOCENTE {
-        string especialidad
-    }
-    MATRICULA {
-        date fecha
-        string estado
-        int convocatoria
-    }
+    direction TB
+    CURSO ||..o{ EDICION : ofrece
+    EDICION ||..o{ MATRICULA : recibe
+    ALUMNO ||..o{ MATRICULA : realiza
+    DOCENTE }|..o{ EDICION : imparte
 ```
 
-### 15.3. Lo que el diagrama no cuenta por sí solo
+Las líneas son no identificadoras: cada entidad del ejemplo tiene identificador propio. Esto no elimina la participación obligatoria; una matrícula sigue necesitando exactamente un alumno y una edición, como indican los extremos de sus relaciones.
 
-- La especialización de `PERSONA` es parcial y solapada.
-- `fecha_fin` debe ser posterior a `fecha_inicio`.
-- La combinación alumno, edición y convocatoria debe ser única.
-- El correo debe cumplir las reglas acordadas y su unicidad debe decidirse.
-- Debemos aclarar qué ocurre con las matrículas si se cancela una edición.
+### 15.5. Reglas adicionales
 
-El diagrama es una parte de la documentación, no toda la documentación.
-
----
-
-## 16. Lista de comprobación
-
-### Comprensión
-
-- [ ] El objetivo y los límites del sistema están claros.
-- [ ] Existe un glosario sin sinónimos ambiguos.
-- [ ] Las dudas y suposiciones están documentadas.
-
-### Entidades y atributos
-
-- [ ] Cada entidad posee significado, ocurrencias e identidad.
-- [ ] Los nombres son claros, singulares y coherentes.
-- [ ] Cada atributo pertenece al elemento que describe.
-- [ ] Los dominios y la opcionalidad están definidos.
-- [ ] Los valores multivaluados y derivados están justificados.
-- [ ] Los identificadores son únicos, mínimos y estables.
-
-### Relaciones
-
-- [ ] Cada relación expresa una regla necesaria.
-- [ ] Puede leerse correctamente en ambos sentidos.
-- [ ] Los roles están indicados cuando hay ambigüedad.
-- [ ] Se han estudiado mínimos y máximos en todos los extremos.
-- [ ] Las relaciones ternarias no se han descompuesto sin análisis.
-
-### Modelo extendido
-
-- [ ] Las entidades débiles cumplen dependencia de identificación.
-- [ ] Las especializaciones indican completitud y solapamiento.
-- [ ] Las subclases aportan atributos o relaciones específicas.
-- [ ] Las agregaciones o entidades asociativas están justificadas.
-
-### Validación
-
-- [ ] El modelo admite casos válidos y rechaza casos inválidos.
-- [ ] Las restricciones no representables están documentadas.
-- [ ] El diagrama es legible y no depende de conocer el enunciado de memoria.
-
----
-
-## 17. Actividades de autoevaluación
-
-1. Explica la diferencia entre modelo, esquema e instancia.
-2. Decide si `dirección` debe ser atributo compuesto o entidad en dos contextos diferentes.
-3. Propón dos claves candidatas para una entidad y analiza su estabilidad.
-4. Escribe las cuatro combinaciones posibles de participación mínima y máxima.
-5. Modela una relación recursiva entre empleados indicando sus roles.
-6. Construye un ejemplo donde una relación ternaria no pueda sustituirse por tres binarias.
-7. Explica por qué dependencia de existencia y entidad débil no son sinónimos.
-8. Convierte una relación `N:M` con atributos en una entidad asociativa.
-9. Diseña una especialización total y disjunta y otra parcial y solapada.
-10. Escribe tres reglas de negocio que un diagrama E/R no pueda expresar completamente.
-11. Localiza cinco decisiones que falten en el ejemplo de la academia.
-12. Revisa un diagrama propio con la lista de comprobación y documenta los cambios.
-
----
-
-## 18. Glosario
-
-| Término | Definición breve |
+| Regla | Motivo |
 |---|---|
-| Agregación | Abstracción que permite tratar una relación y sus participantes como una unidad. |
-| Atributo | Propiedad que describe una entidad o relación. |
-| Cardinalidad | Número mínimo y máximo de participaciones permitidas. |
-| Clave candidata | Conjunto mínimo de atributos que identifica unívocamente. |
-| Dominio | Conjunto de valores admitidos para un atributo. |
-| Entidad asociativa | Concepto que representa una asociación con propiedades o participación propia. |
-| Entidad débil | Entidad que necesita el identificador de otra para ser identificada. |
-| Especialización | Proceso de definir subclases a partir de una superclase. |
-| Generalización | Proceso de extraer una superclase común a varios tipos. |
-| Identificador parcial | Atributo que distingue ocurrencias débiles dentro de una misma entidad propietaria. |
-| Instancia | Estado concreto de los datos en un momento. |
-| Modelo conceptual | Representación del dominio independiente de la implementación. |
-| Participación | Obligatoriedad u opcionalidad de una entidad en una relación. |
-| Relación | Asociación relevante entre ocurrencias de entidades. |
-| Restricción semántica | Regla del dominio que limita los estados válidos. |
-| Rol | Función de una entidad dentro de una relación. |
-| Subclase | Subconjunto especializado de una superclase. |
-| Tipo de entidad | Definición de una clase de objetos del dominio. |
+| La fecha de fin debe ser posterior a la de inicio | Las cardinalidades no comparan fechas |
+| La pareja alumno-edición no se repite en las matrículas | El identificador propio de matrícula no impide por sí solo repetir la pareja |
+| El estado pertenece al conjunto pendiente, confirmada o cancelada | Es una restricción del dominio |
+| La cancelación de una edición exige decidir qué ocurre con sus matrículas | El comportamiento debe acordarse y documentarse |
+
+### 15.6. Comprobación con datos
+
+| Situación | ¿Se admite? | Explicación |
+|---|---|---|
+| Crear un curso sin ediciones | Sí | Su mínimo de ediciones es cero |
+| Crear una edición sin curso | No | Debe pertenecer exactamente a uno |
+| Registrar un alumno sin matrículas | Sí | Su participación es opcional |
+| Registrar dos matrículas del mismo alumno en la misma edición | No | Incumple la regla de unicidad |
+| Registrar una edición con dos docentes | Sí | El máximo es muchos |
+| Registrar una edición sin ningún docente | No, según estas reglas | El mínimo es uno |
+
+Si la academia necesita preparar ediciones antes de asignar docentes, habría que revisar esa última regla o distinguir estados de la edición. El modelo debe reflejar el funcionamiento acordado.
+
+La especialización PERSONA–ALUMNO–DOCENTE podría incorporarse si necesitamos identificar a una misma persona en ambos papeles. Aquí se mantiene el ejemplo básico y la herencia se ha explicado por separado.
+
+<a id="apartado-16"></a>
+## 16. Resumen
+
+- El diseño conceptual representa los datos y reglas del problema antes de decidir su implementación.
+- Las entidades representan conceptos; sus ocurrencias son casos concretos.
+- Los atributos describen entidades o relaciones y tienen dominios definidos.
+- Un identificador debe distinguir las ocurrencias de forma inequívoca.
+- Las relaciones expresan asociaciones y pueden incluir papeles distintos o más de dos participantes.
+- La cardinalidad máxima y la participación mínima responden a preguntas diferentes.
+- Una entidad débil por identificación necesita el identificador de otra para distinguirse.
+- Las entidades asociativas permiten tratar ciertas asociaciones como conceptos con propiedades propias.
+- La especialización añade subclases y exige definir completitud y solapamiento.
+- El diagrama debe acompañarse de las reglas y aclaraciones que no puede mostrar.
 
