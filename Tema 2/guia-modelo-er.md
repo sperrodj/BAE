@@ -610,5 +610,3 @@ No se necesita ningún rectángulo doble: todas las entidades de estas solucione
 | El modelo se limita a los requisitos definidos | No añadimos historial de ventas, años académicos ni curso-módulo sin información |
 
 El procedimiento es siempre el mismo: comprender, identificar, relacionar, preguntar en ambos sentidos y comprobar con ejemplos. Un dibujo correcto debe poder explicarse mediante frases claras.
-
-> **Visualización:** los diagramas Mermaid se pueden consultar en GitHub o en un visor compatible. Si no se renderizan, las tablas de entidades y cardinalidades contienen la información necesaria para dibujar ambos modelos.
