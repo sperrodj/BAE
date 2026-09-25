@@ -1,6 +1,6 @@
 # Ejercicios de diseño conceptual: modelo entidad/relación
 
-**Bases de Datos · 1.º DAM · Tema 2**
+**Bases de Datos · 1DAM · Tema 2**
 
 ## Instrucciones
 
