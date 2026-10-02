@@ -1,7 +1,5 @@
 # Chuleta de Markdown
 
-## Lenguajes de Marcas — 1.º DAM
-
 Markdown es un **lenguaje de marcas ligero** que permite estructurar documentos mediante símbolos sencillos. Sus archivos utilizan la extensión `.md` y pueden leerse incluso sin procesar.
 
 ## Encabezados
