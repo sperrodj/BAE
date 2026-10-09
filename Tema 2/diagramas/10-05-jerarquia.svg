@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1300 760" role="img"><rect width="100%" height="100%" fill="white"/><style>text{font-family:Arial,sans-serif;fill:#16324f}.line{stroke:#334155;stroke-width:2;fill:none}.node{stroke:#16324f;stroke-width:2;fill:#f0f6fc}.att{stroke:#334155;stroke-width:1.5;fill:white}</style>
+<rect class="node" x="535" y="50" width="230" height="60"/>
+<text x="650" y="87" text-anchor="middle" font-size="22">VEHICULO</text>
+<path class="line" d="M650,110 L650,180"/>
+<circle class="node" cx="650" cy="208" r="28"/>
+<text x="650" y="216" text-anchor="middle" font-size="25">d</text>
+<text x="740" y="160" text-anchor="middle" font-size="18">total</text>
+<path class="line" d="M650,236 L340,315"/>
+<path class="line" d="M650,236 L960,315"/>
+<rect class="node" x="225" y="315" width="230" height="60"/>
+<text x="340" y="352" text-anchor="middle" font-size="22">TERRESTRE</text>
+<rect class="node" x="845" y="315" width="230" height="60"/>
+<text x="960" y="352" text-anchor="middle" font-size="22">AEREO</text>
+<path class="line" d="M340,375 L340,465"/>
+<circle class="node" cx="340" cy="493" r="28"/>
+<text x="340" y="501" text-anchor="middle" font-size="25">d</text>
+<text x="425" y="435" text-anchor="middle" font-size="18">parcial</text>
+<path class="line" d="M340,521 L175,630"/>
+<path class="line" d="M340,521 L505,630"/>
+<rect class="node" x="60" y="630" width="230" height="60"/>
+<text x="175" y="667" text-anchor="middle" font-size="22">COCHE</text>
+<rect class="node" x="390" y="630" width="230" height="60"/>
+<text x="505" y="667" text-anchor="middle" font-size="22">MOTO</text>
+</svg>

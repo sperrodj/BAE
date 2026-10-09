@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1450 880" role="img"><rect width="100%" height="100%" fill="white"/><style>text{font-family:Arial,sans-serif;fill:#16324f}.line{stroke:#334155;stroke-width:2;fill:none}.node{stroke:#16324f;stroke-width:2;fill:#f0f6fc}.att{stroke:#334155;stroke-width:1.5;fill:white}</style>
+<rect x="80" y="290" width="1290" height="430" rx="0" fill="none" stroke="#16324f" stroke-width="2.5"/>
+<text x="725" y="690" text-anchor="middle" font-size="21">AGREGACIÓN: asignación de un empleado a un proyecto</text>
+<path class="line" d="M430,520 L615,520"/>
+<path class="line" d="M835,520 L1020,520"/>
+<rect class="node" x="200" y="490" width="230" height="60"/>
+<text x="315" y="527" text-anchor="middle" font-size="22">EMPLEADO</text>
+<polygon class="node" points="725,472 835,520 725,568 615,520"/>
+<text x="725" y="526" text-anchor="middle" font-size="18">TRABAJA_EN</text>
+<rect class="node" x="1020" y="490" width="230" height="60"/>
+<text x="1135" y="527" text-anchor="middle" font-size="22">PROYECTO</text>
+<text x="525" y="490" text-anchor="middle" font-size="20">(0,N)</text>
+<text x="920" y="490" text-anchor="middle" font-size="20">(0,N)</text>
+<path class="line" d="M725,472 L725,370"/>
+<ellipse class="att" cx="725" cy="342" rx="100" ry="28"/>
+<text x="725" y="348" text-anchor="middle" font-size="18">horas_semanales</text>
+<path class="line" d="M725,290 L725,235"/>
+<path class="line" d="M725,140 L725,105"/>
+<polygon class="node" points="725,139 835,187 725,235 615,187"/>
+<text x="725" y="193" text-anchor="middle" font-size="18">SUPERVISA</text>
+<rect class="node" x="610" y="45" width="230" height="60"/>
+<text x="725" y="82" text-anchor="middle" font-size="22">RESPONSABLE</text>
+<text x="815" y="125" text-anchor="middle" font-size="20">(1,1)</text>
+<text x="815" y="263" text-anchor="middle" font-size="20">(0,N)</text>
+<text x="725" y="805" text-anchor="middle" font-size="20">Cada asignación tiene un responsable; un responsable supervisa cero o muchas asignaciones.</text>
+</svg>

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1450 760" role="img"><rect width="100%" height="100%" fill="white"/><style>text{font-family:Arial,sans-serif;fill:#16324f}.line{stroke:#334155;stroke-width:2;fill:none}.node{stroke:#16324f;stroke-width:2;fill:#f0f6fc}.att{stroke:#334155;stroke-width:1.5;fill:white}</style>
+<rect class="node" x="610" y="340" width="230" height="60"/>
+<text x="725" y="377" text-anchor="middle" font-size="22">ASIGNACION</text>
+<rect class="node" x="125" y="340" width="230" height="60"/>
+<text x="240" y="377" text-anchor="middle" font-size="22">EMPLEADO</text>
+<rect class="node" x="1095" y="340" width="230" height="60"/>
+<text x="1210" y="377" text-anchor="middle" font-size="22">PROYECTO</text>
+<rect class="node" x="610" y="50" width="230" height="60"/>
+<text x="725" y="87" text-anchor="middle" font-size="22">RESPONSABLE</text>
+<path class="line" d="M370,370 L355,370"/>
+<path class="line" d="M590,370 L610,370"/>
+<polygon class="node" points="480,322 590,370 480,418 370,370"/>
+<text x="480" y="376" text-anchor="middle" font-size="18">CORRESPONDE_A</text>
+<path class="line" d="M860,370 L845,370"/>
+<path class="line" d="M1080,370 L1100,370"/>
+<polygon class="node" points="970,322 1080,370 970,418 860,370"/>
+<text x="970" y="376" text-anchor="middle" font-size="18">SE_REALIZA_EN</text>
+<text x="345" y="342" text-anchor="middle" font-size="19">(1,1)</text>
+<text x="620" y="342" text-anchor="middle" font-size="19">(0,N)</text>
+<text x="845" y="342" text-anchor="middle" font-size="19">(0,N)</text>
+<text x="1110" y="342" text-anchor="middle" font-size="19">(1,1)</text>
+<path class="line" d="M725,110 L725,200"/>
+<path class="line" d="M725,296 L725,340"/>
+<polygon class="node" points="725,200 835,248 725,296 615,248"/>
+<text x="725" y="254" text-anchor="middle" font-size="18">SUPERVISA</text>
+<text x="815" y="145" text-anchor="middle" font-size="19">(1,1)</text>
+<text x="815" y="318" text-anchor="middle" font-size="19">(0,N)</text>
+<path class="line" d="M725,400 L560,515"/>
+<path class="line" d="M725,400 L890,515"/>
+<ellipse class="att" cx="560" cy="545" rx="100" ry="28"/>
+<text x="560" y="551" text-anchor="middle" font-size="18" text-decoration="underline">codigo_asignacion</text>
+<ellipse class="att" cx="890" cy="545" rx="100" ry="28"/>
+<text x="890" y="551" text-anchor="middle" font-size="18">horas_semanales</text>
+<text x="725" y="675" text-anchor="middle" font-size="21">Una ASIGNACION por pareja empleado-proyecto en este ejemplo.</text>
+</svg>
