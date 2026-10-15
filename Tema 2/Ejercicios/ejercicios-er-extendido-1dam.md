@@ -1,22 +1,6 @@
-# Ejercicios de diseño conceptual E/R extendido
+# Ejercicios de modelo E/R extendido
 
-**Bases de Datos · 1.º DAM · Notación de Chen**
-
-Resuelve los tres ejercicios de forma individual. Cada enunciado plantea un sistema ficticio inspirado en una serie o película. Las reglas de los ejercicios son las que aparecen en el texto y pueden adaptar libremente el universo de ficción.
-
-Para cada ejercicio, sigue los siete pasos indicados y documenta el proceso en el `README.md` del repositorio del módulo. Crea los diagramas en **draw.io (diagrams.net)**, guarda sus archivos editables en el repositorio y añade al README las imágenes exportadas de cada fase.
-
-## Convenciones comunes
-
-- Elabora un **modelo conceptual E/R extendido**. No diseñes tablas, claves foráneas ni sentencias SQL.
-- Usa rectángulos para entidades, rombos para relaciones y óvalos para atributos.
-- Subraya los atributos identificadores.
-- Representa las especializaciones con un círculo: escribe `d` si son disjuntas y `o` si son solapadas. Indica `total` o `parcial` junto al tramo de la superclase.
-- En las relaciones ordinarias, escribe las cardinalidades como pares **(mínimo,máximo)** en ambos extremos. Sigue la convención de clase: junto a cada entidad se indica cuántas ocurrencias de esa entidad corresponden a una ocurrencia del extremo contrario.
-- Los atributos que describen un vínculo deben conectarse al rombo correspondiente, salvo que el enunciado justifique una entidad asociativa.
-- No asignes cardinalidades binarias a las conexiones de herencia.
-- Si una regla no puede expresarse por completo con los símbolos del diagrama, inclúyela en un catálogo de restricciones semánticas.
-- Mantén los nombres y símbolos legibles. Puedes usar varios lienzos o páginas si el modelo no cabe con claridad en uno solo.
+Para cada ejercicio, sigue los siete pasos indicados y documenta el proceso en el `README.md` del repositorio del módulo. Crea los diagramas en **draw.io (diagrams.net)**, guarda y añade al README las imágenes exportadas de cada fase.
 
 ## Pasos que debes seguir en cada ejercicio
 
@@ -30,7 +14,7 @@ Sigue estos pasos en el orden indicado y documenta todo el proceso en el `README
 6. **Generar el modelo completo E/R.** Integra las entidades y relaciones de los modelos parciales.
 7. **Colocar los atributos a cada entidad e interrelación.** Añade los atributos, subraya los identificadores y aplica las convenciones de E/R extendido necesarias: especializaciones, completitud, solapamiento y agregación cuando corresponda.
 
-En los diagramas usa la notación de Chen trabajada en clase: rectángulos para entidades, rombos para relaciones y óvalos para atributos. Representa las especializaciones con un círculo, indicando `d` o `o` y `total` o `parcial`. En las relaciones ordinarias, coloca las cardinalidades como pares **(mínimo,máximo)** junto a los extremos correctos. No diseñes tablas ni claves foráneas.
+En los diagramas usa la notación de Chen trabajada en clase: rectángulos para entidades, rombos para relaciones y óvalos para atributos. Representa las especializaciones con un círculo, indicando `d` o `o` y `total` o `parcial`. En las relaciones ordinarias, coloca las cardinalidades como pares **(mínimo,máximo)** junto a los extremos correctos.
 ---
 
 # Ejercicio 1. Star Wars: flota de la Alianza Rebelde
@@ -137,4 +121,4 @@ En el README incluye:
 - La imagen del **diagrama final**, con atributos, identificadores y las convenciones de E/R extendido que correspondan.
 - Las explicaciones necesarias para entender cada imagen y las reglas que el diagrama no exprese por sí solo.
 
-Guarda también en el repositorio los archivos editables de draw.io (`.drawio`) y las imágenes utilizadas en el README. Inserta las imágenes en el documento mediante rutas relativas para que se visualicen al abrir el repositorio. Repite esta estructura para los tres ejercicios: Star Wars, Stranger Things y Jujutsu Kaisen.
+Guarda también las imágenes utilizadas en el README. Inserta las imágenes en el documento mediante rutas relativas para que se visualicen al abrir el repositorio. Repite esta estructura para los tres ejercicios: Star Wars, Stranger Things y Jujutsu Kaisen.
