@@ -13,10 +13,8 @@ No es necesario tener conocimientos previos. El objetivo es realizar una primera
 - Trabajo por parejas.
 - Duración aproximada: entre 80 y 90 minutos.
 - Cada pareja entregará el documento elaborado de forma individual.
-- Posteriormente, el documento se transformará a Markdown y se incorporará al repositorio de actividades.
 
-## Formato de entrega inicial
-
+## Formato de entrega 
 El documento podrá realizarse con:
 
 - Google Docs.
@@ -258,45 +256,3 @@ El documento deberá contener:
 Entre **6 y 10 páginas**, sin contar la portada.
 
 No se valorará positivamente añadir texto innecesario para aumentar el número de páginas.
-
-## Segunda fase: conversión a Markdown
-
-Una vez corregido el contenido, cada pareja transformará su documento a Markdown.
-
-La carpeta de la actividad tendrá esta estructura:
-
-```text
-actividad-01/
-├── README.md
-└── img/
-    ├── evolucion-almacenamiento.jpg
-    ├── ejemplo-fichero.png
-    ├── modelo-relacional.png
-    └── sqlite.png
-```
-
-El archivo `README.md` deberá utilizar:
-
-- `#` para el título.
-- `##` para los apartados.
-- `###` para los subapartados.
-- Listas correctamente formateadas.
-- Tablas en Markdown.
-- Imágenes guardadas dentro de `img`.
-- Enlaces a las fuentes.
-- Nombres de archivo en minúsculas, sin espacios ni tildes.
-
-Ejemplo:
-
-```markdown
-## Modelo relacional
-
-El modelo relacional organiza la información mediante tablas relacionadas.
-
-![Ejemplo de una tabla relacional](img/modelo-relacional.png)
-
-**Figura 1.** Ejemplo de organización mediante filas y columnas.
-```
-
-Posteriormente, esta carpeta se incorporará al repositorio de actividades del módulo.
-
