@@ -262,12 +262,50 @@ Fíjate en que el valor `1` aparece varias veces en `TEMA`: eso es correcto, por
 
 #### ¿Qué ocurre si una participación es opcional?
 
-Si un tema puede existir temporalmente sin asignarse a un módulo, `Cod_Modulo` podría admitir `NULL`. Si todo tema debe pertenecer obligatoriamente a un módulo, la FK será obligatoria (`NOT NULL`).
 
-En algunos diseños se utiliza una tabla intermedia para representar un vínculo opcional, pero **no es obligatorio crearla solo porque aparezca una participación mínima 0**.
+### ¿Qué ocurre si una participación es opcional?
+
+En una relación **1:N**, lo habitual es incorporar la clave primaria (PK) de la entidad del lado **1** como clave foránea (FK) en la entidad del lado **N**.
+
+Sin embargo, cuando la participación es opcional, también podemos utilizar una **tabla intermedia** para representar la relación.
+
+#### Ejemplo: relación entre EMPRESA y PROFESOR
+
+En el diagrama se representa una relación en la que:
+
+- Una **empresa** puede tener varios profesores trabajando en ella.
+- Un **profesor** puede trabajar en una empresa o no trabajar en ninguna.
+
+En este caso, se ha decidido crear una tabla intermedia llamada **TRABAJA**, que contiene:
+
+| Atributo | Tipo de clave | Descripción |
+|---|---|---|
+| `DNI` | PK y FK | Identifica al profesor y hace referencia a la tabla PROFESOR. |
+| `Cod_Empresa` | FK | Identifica la empresa y hace referencia a la tabla EMPRESA. |
+
+La clave primaria de TRABAJA es `DNI`, porque cada profesor puede aparecer **como máximo una vez** en esta relación.
+
+#### ¿Qué ocurre si un profesor no trabaja en ninguna empresa?
+
+Simplemente, ese profesor **no tendrá ningún registro en la tabla TRABAJA**.
+
+De esta manera, no necesitamos introducir valores `NULL` para indicar que todavía no tiene una empresa asignada.
 
 <!-- Imagen original: PROFESOR–EMPRESA, ejemplo de 1:N con tabla de relación. Se muestra como alternativa de diseño, no como regla obligatoria. -->
 ![Ejemplo alternativo de relación 1:N](imagenes/05-relacion-1n-profesor-empresa.png)
+
+#### ¿Es obligatorio crear una tabla intermedia?
+
+**No.** También podríamos añadir `Cod_Empresa` directamente a la tabla PROFESOR como clave foránea.
+
+En ese caso:
+
+- Si el profesor trabaja en una empresa, `Cod_Empresa` contendrá el código de esa empresa.
+- Si el profesor no trabaja en ninguna empresa, `Cod_Empresa` tendrá el valor `NULL`.
+
+Ambas soluciones son válidas. La elección dependerá de las necesidades de la base de datos.
+
+> **Recuerda:** una participación opcional no obliga a crear una tabla intermedia. En muchas relaciones **1:N** basta con colocar una clave foránea que admita valores `NULL`.
 
 ### 4.2. Relaciones N:M (muchos a muchos)
 
