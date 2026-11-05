@@ -71,7 +71,7 @@ Imagina esta tabla `PERSONA`:
 Un esquema puede representarse así:
 
 ```text
-PERSONA(DNI, Nombre, Apellido, Nacimiento, EstadoCivil)
+PERSONA(DNI, Nombre, Apellido, Nacimiento, Sexo, EstadoCivil)
 ```
 
 <!-- Imagen opcional: esquema de la entidad/tabla PERSONA del material original. -->
