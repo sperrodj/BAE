@@ -503,7 +503,7 @@ Así no repetimos `nombre` y `correo` en cada subtipo.
 
 También existen diseños con **una única tabla** y diseños con **una tabla por subtipo**. La elección depende de si los subtipos son exclusivos o pueden solaparse, de si todas las personas pertenecen a alguno y de los datos que queramos guardar.
 
-![Jerarquía y ejemplo de transformación](imagenes/10-jerarquia-persona.png)
+![Jerarquía y ejemplo de transformación](imagenes/10-jerarquia-persona.svg)
 
 *Figura 10. Ejemplo de jerarquía formada por una entidad general y sus subtipos.*
 
