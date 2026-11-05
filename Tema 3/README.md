@@ -609,7 +609,7 @@ Un instituto quiere almacenar información sobre **profesores, alumnos y módulo
 - Un profesor puede tutorizar a varios alumnos, pero cada alumno tiene un único tutor.
 - Un alumno puede cursar varios módulos y un módulo puede tener varios alumnos.
 
-![Resumen visual del modelo E/R](imagenes/diagrama-ejemplo-guiado.png)
+![Resumen visual del modelo E/R](imagenes/diagram-ejemplo-guiado.png)
 
 ### Paso 1. Identifica las entidades
 
