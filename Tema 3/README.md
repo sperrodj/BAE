@@ -1,6 +1,7 @@
 # Tema 3. El modelo relacional
 
 **Módulo:** Bases de Datos 
+> Del diagrama conceptual a un esquema formado por relaciones, claves y restricciones.
 
 ## ¿Qué aprenderás?
 
@@ -16,9 +17,35 @@ Al terminar este tema podrás:
 
 ## 1. Introducción al modelo relacional
 
-Un **sistema gestor de bases de datos (SGBD)** permite almacenar, organizar y consultar información. Existen diferentes modelos de bases de datos, como el jerárquico, el de red, el relacional y el orientado a objetos.
+Los **sistemas gestores de bases de datos (SGBD)** permiten almacenar, organizar y consultar información. 
 
-En este tema trabajaremos con el **modelo relacional**, utilizado por sistemas como MySQL, PostgreSQL y Oracle Database.
+Conviene situar este tema dentro del proceso completo:
+
+| Nivel | Pregunta | Resultado orientativo |
+|---|---|---|
+| Conceptual | ¿Qué conceptos y reglas existen en el dominio? | Modelo E/R |
+| Lógico | ¿Cómo se representan en el modelo relacional? | Relaciones, claves y restricciones |
+| Físico | ¿Cómo se almacenarán y accederán en un SGBD concreto? | Índices, particiones y parámetros |
+
+Existen diferentes **modelos lógicos** de bases de datos, como el jerárquico, el de red, el relacional y el orientado a objetos.
+
+La mayoría de los SGBD comerciales (Oracle, MySQL,...) actuales están basados en el modelo relacional mientras que los sistemas más antiguos estaban basados en el modelo de red o el modelo jerárquico. Otros modelos basados en objetos, son los utilizados en la actualidad Big Data.
+
+En este tema trabajaremos con el **modelo relacional**, utilizado por sistemas como MySQL, PostgreSQL (que estudiaremos más adelante) y Oracle Database.
+
+El modelo relacional fue propuesto por Edgar F. Codd en 1970. Su idea central consiste en representar los datos mediante **relaciones** y manipularlos mediante operaciones con fundamento matemático.
+
+Su éxito se debe, entre otros motivos, a que:
+
+- utiliza una estructura lógica uniforme;
+- separa la representación lógica de muchos detalles físicos;
+- dispone de reglas de integridad;
+- permite expresar consultas de forma declarativa;
+- cuenta con una base formal: teoría de conjuntos y lógica de predicados.
+
+Se basan en el **álgebra relacional** que es un modelo matemático con sólidos fundamentos.
+
+En un lenguaje declarativo indicamos **qué** resultado queremos, no necesariamente el algoritmo exacto para obtenerlo. El SGBD puede estudiar distintas estrategias de ejecución.
 
 La idea principal es sencilla: **la información se organiza en tablas que pueden relacionarse entre sí**.
 
