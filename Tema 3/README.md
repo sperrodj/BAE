@@ -506,7 +506,7 @@ MATRICULA(
 ```
 
 <!-- Imagen original: relación de grado 3 del material. -->
-![Relación ternaria de matrícula](imagenes/12-relacion-ternaria.png)
+![Relación ternaria de matrícula](imagenes/12-relacion-ternaria.svg)
 
 La tabla `MATRICULA` guarda cada combinación completa de **alumno + asignatura + curso escolar**.
 
