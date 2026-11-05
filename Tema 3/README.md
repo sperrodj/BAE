@@ -609,6 +609,8 @@ Un instituto quiere almacenar información sobre **profesores, alumnos y módulo
 - Un profesor puede tutorizar a varios alumnos, pero cada alumno tiene un único tutor.
 - Un alumno puede cursar varios módulos y un módulo puede tener varios alumnos.
 
+![Resumen visual del modelo E/R](imagenes/diagrama-ejemplo-guiado.png)
+
 ### Paso 1. Identifica las entidades
 
 Las entidades son `PROFESOR`, `ALUMNO` y `MODULO`.
@@ -645,6 +647,7 @@ ALUMNO(Num_Expediente PK, Nombre, Correo, Id_Profesor FK)
 MODULO(Cod_Modulo PK, Nombre, Horas)
 CURSA(Num_Expediente PK, FK, Cod_Modulo PK, FK)
 ```
+![Resultado ejemplo guiado](imagenes/ejemplo-guiado.png)
 
 **Comprobación:** partimos de tres entidades y obtenemos cuatro tablas. La tabla adicional `CURSA` se crea para representar la relación N:M.
 
