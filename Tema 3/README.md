@@ -525,6 +525,10 @@ Según las características de la jerarquía, también pueden utilizarse otras e
 
 Una **relación ternaria** conecta tres entidades al mismo tiempo.
 
+Siempre que sea posible se recomienda convertir las relaciones de grado 3 en dos relaciones de grado 2.
+
+Las relaciones de grado 3 pueden generar una nueva tabla dependiendo de la cardinalidad de la relación.
+
 #### Ejemplo: ALUMNO, ASIGNATURA y CURSO_ESCOLAR
 
 Queremos guardar qué alumno se matricula en qué asignatura durante qué curso escolar.
@@ -549,6 +553,15 @@ MATRICULA(
 La tabla `MATRICULA` guarda cada combinación completa de **alumno + asignatura + curso escolar**.
 
 En el ejemplo, las tres FKs forman la PK. En otros problemas, las reglas de cardinalidad pueden permitir otra clave.
+
+<!-- Imagen original: relación de grado 3 del material. -->
+![Relación ternaria de matrícula](imagenes/relacional-ternaria.png)
+
+### Cardinalidad 1:N:N
+En este caso creamos una tabla. **La clave primaria de la nueva tabla estará formada por las dos claves de las entidades que participan como N en la relación.**
+
+### Cardinalidad 1:1:N
+En este caso **NO** es necesario crear una tabla. La entidad que participa como N recibe las claves de las dos entidades que participan como 1.
 
 > **Importante:** una relación ternaria no debe sustituirse automáticamente por varias relaciones binarias: podríamos perder el significado de la combinación de las tres entidades.
 
