@@ -1,6 +1,6 @@
 # Tema 3. El modelo relacional
 
-**Módulo:** Bases de Datos · **Curso:** 1.º DAM
+**Módulo:** Bases de Datos 
 
 ## ¿Qué aprenderás?
 
