@@ -155,19 +155,3 @@ Tareas:
 1. Construye datos de ejemplo que muestren el producto de combinaciones.
 2. Explica por qué aparecen filas redundantes.
 3. Propón dos relaciones que representen los hechos por separado.
-
-## Reto final
-
-Elige una situación real: reservas, tienda, torneo, clínica veterinaria o plataforma educativa.
-
-Entrega:
-
-- una relación inicial que mezcle al menos tres hechos;
-- cinco filas de ejemplo;
-- reglas del negocio;
-- claves candidatas y dependencias funcionales;
-- proceso razonado hasta 3FN;
-- esquema final con claves primarias y ajenas;
-- explicación de dos anomalías que el diseño final evita.
-
-> Se valorará más una justificación correcta que el número de tablas creado.
