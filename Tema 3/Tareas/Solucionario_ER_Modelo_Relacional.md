@@ -502,31 +502,6 @@ Ambas alternativas son ampliaciones del modelo original.
 
 ---
 
-## Resumen
-
-| Ejercicio | Entidades | Relaciones 1:N | Relaciones N:M | Tablas finales | Caso especial |
-|---|---:|---:|---:|---:|---|
-| 1. Transportes | 4 | 2 | 1 | 6 | Tabla intermedia en 1:N opcional |
-| 2. Productos | 3 | 1 | 1 | 4 | — |
-| 3. Centro educativo | 3 | 2 | 1 | 4 | Relación reflexiva |
-| 4. Concesionario | 3 | 2 | 0 | 4 | Tabla intermedia en 1:N opcional |
-| 5. Hospital | 3 | 2 | 0 | 3 | Atributo trasladado al lado N |
-| 6. Gestión comercial | 3 | 0 | 2 | 5 | Atributo en relación N:M |
-| **Total** | **19** | **9** | **5** | **26** | |
-
-## Lista de comprobación para el alumnado
-
-- [ ] Todas las entidades se han transformado en tablas.
-- [ ] Todas las tablas tienen una PK.
-- [ ] Las relaciones 1:N se han resuelto según la cardinalidad y el criterio de los apuntes.
-- [ ] Las relaciones N:M se han transformado en tablas intermedias.
-- [ ] Las FKs referencian claves primarias existentes.
-- [ ] Las PK compuestas garantizan la unicidad de sus combinaciones.
-- [ ] Las FKs obligatorias tienen NOT NULL.
-- [ ] Las relaciones opcionales se han representado según los apuntes, sin introducir FKs nulas innecesarias.
-- [ ] Los atributos de las relaciones se han trasladado correctamente.
-- [ ] La relación reflexiva se ha resuelto mediante una FK a la propia tabla.
-
 > **Importante:** las restricciones PK, FK, UNIQUE y NOT NULL no garantizan por sí solas todas las cardinalidades mínimas. Por ejemplo, una FK en PRODUCTO garantiza que cada producto tenga un proveedor válido, pero no que todos los proveedores suministren al menos un producto. Para ello se necesitan controles adicionales, como disparadores o controles transaccionales.
 
 Los diagramas no especifican la obligatoriedad de todos los atributos ordinarios. Las restricciones NULL y NOT NULL del solucionario se deducen principalmente de las claves y las cardinalidades.
