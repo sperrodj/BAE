@@ -1,4 +1,21 @@
-# Solucionario: transformación del modelo E/R al modelo relacional
+# Solucionario — Transformación del modelo E/R al modelo relacional
+
+**BAE · 1.º DAM**
+
+Este documento contiene la resolución de los seis ejercicios. Utilícenlo para comprobar sus resultados y entender el procedimiento, no solo para consultar el modelo final.
+
+## Procedimiento de resolución
+
+1. **Localiza las entidades** del diagrama.
+2. **Crea una tabla por cada entidad** e incluye sus atributos.
+3. **Marca la clave primaria (PK)** de cada tabla.
+4. **Busca las relaciones 1:N** y coloca las FKs en el lado N.
+5. **Busca las relaciones N:M** y crea las tablas intermedias correspondientes.
+6. **Revisa las relaciones 1:1** y decide dónde colocar una FK única.
+7. **Comprueba los casos especiales**: entidades débiles, reflexivas, jerarquías y ternarias.
+8. **Revisa los resultados:** ninguna FK debe hacer referencia a un registro inexistente; determina cuáles pueden admitir `NULL` y qué valores deben ser únicos.
+
+> **Criterio de los apuntes:** en una relación 1:N, cuando la cardinalidad junto al lado 1 es (0,1), se representa la relación mediante una tabla intermedia cuya PK es la clave del lado N. Así se evita almacenar una FK nula en la tabla del lado N. Cuando es (1,1), se incorpora la FK directamente al lado N. Este criterio se aplica en los ejercicios 1 y 4.
 
 ## Notación
 
@@ -6,7 +23,9 @@
 - **FK**: clave foránea.
 - **NOT NULL**: valor obligatorio.
 - **NULL**: valor opcional.
-- **UNIQUE**: valor o combinación de valores únicos.
+- **UQ (UNIQUE)**: valor o combinación de valores únicos.
+
+En los diagramas, las tablas de entidades aparecen en verde y las tablas procedentes de relaciones en amarillo. Las PK se subrayan; las líneas conectan las FK con las PK referenciadas.
 
 Las cardinalidades se interpretan según la notación de los diagramas originales. Una clave primaria compuesta está formada por varios atributos.
 
@@ -18,18 +37,26 @@ Las cardinalidades se interpretan según la notación de los diagramas originale
 
 CAMIONERO, CAMION, PAQUETE y PROVINCIA.
 
-### 2 y 3. Crear las tablas y marcar las PK
+### 2. Crear las tablas e incluir sus atributos
 
 | Tabla | Atributos |
 |---|---|
-| CAMIONERO | **dni (PK)**, nombre, poblacion, tfno, direccion, salario |
-| CAMION | **matricula (PK)**, potencia, modelo, tipo |
-| PAQUETE | **codigo (PK)**, descripcion, destinatario, direccion |
-| PROVINCIA | **codigo (PK)**, nombre |
+| CAMIONERO | dni, nombre, poblacion, tfno, direccion, salario |
+| CAMION | matricula, potencia, modelo, tipo |
+| PAQUETE | codigo, descripcion, destinatario, direccion |
+| PROVINCIA | codigo, nombre |
+
+### 3. Marcar las claves primarias
+
+- **CAMIONERO:** `dni` (PK).
+- **CAMION:** `matricula` (PK).
+- **PAQUETE:** `codigo` (PK).
+- **PROVINCIA:** `codigo` (PK).
+
 
 ### 4. Relaciones 1:N
 
-- **DISTRIBUYE:** un camionero distribuye uno o varios paquetes. Un paquete puede tener cero o un camionero. Se añade `dni_camionero` a PAQUETE como FK, que admite NULL.
+- **DISTRIBUYE:** un camionero distribuye uno o varios paquetes. Un paquete puede tener cero o un camionero. Como la cardinalidad junto a CAMIONERO es (0,1), se crea DISTRIBUYE siguiendo los apuntes. Su PK es `codigo_paquete` (también FK) y `dni_camionero` es una FK obligatoria. Un paquete sin camionero no tendrá fila en DISTRIBUYE.
 - **DESTINADO:** una provincia recibe cero o varios paquetes. Cada paquete tiene una única provincia de destino. Se añade `codigo_provincia` a PAQUETE como FK obligatoria.
 
 ### 5. Relaciones N:M
@@ -44,7 +71,7 @@ No existen.
 
 No existen entidades débiles, relaciones reflexivas, jerarquías ni ternarias.
 
-### 8. Modelo relacional y restricciones
+### 8. Revisar los resultados: modelo relacional y restricciones
 
 ```text
 CAMIONERO(dni, nombre, poblacion, tfno, direccion, salario)
@@ -57,10 +84,14 @@ PROVINCIA(codigo, nombre)
     PK: codigo
 
 PAQUETE(codigo, descripcion, destinatario, direccion,
-        dni_camionero, codigo_provincia)
+        codigo_provincia)
     PK: codigo
-    FK: dni_camionero -> CAMIONERO(dni)
     FK: codigo_provincia -> PROVINCIA(codigo)
+
+DISTRIBUYE(codigo_paquete, dni_camionero)
+    PK: codigo_paquete
+    FK: codigo_paquete -> PAQUETE(codigo)
+    FK: dni_camionero -> CAMIONERO(dni)
 
 CONDUCE(dni_camionero, matricula_camion)
     PK: (dni_camionero, matricula_camion)
@@ -70,19 +101,16 @@ CONDUCE(dni_camionero, matricula_camion)
 
 | Atributo | Restricción |
 |---|---|
-| PAQUETE.dni_camionero | NULL |
+| DISTRIBUYE.codigo_paquete | PK, FK, NOT NULL y único |
+| DISTRIBUYE.dni_camionero | FK, NOT NULL; puede repetirse |
 | PAQUETE.codigo_provincia | NOT NULL |
 | CONDUCE.dni_camionero | NOT NULL |
 | CONDUCE.matricula_camion | NOT NULL |
 | Pareja de claves de CONDUCE | Única |
 
-```mermaid
-erDiagram
-    CAMIONERO o|--|{ PAQUETE : distribuye
-    PROVINCIA ||--o{ PAQUETE : destinado
-    CAMIONERO ||--o{ CONDUCE : conduce
-    CAMION ||--o{ CONDUCE : participa
-```
+#### Representación gráfica del modelo relacional
+
+![Modelo relacional del ejercicio 1](imagenes/ejercicio_1.png)
 
 ---
 
@@ -92,13 +120,20 @@ erDiagram
 
 CLIENTE, PRODUCTO y PROVEEDOR.
 
-### 2 y 3. Crear las tablas y marcar las PK
+### 2. Crear las tablas e incluir sus atributos
 
 | Tabla | Atributos |
 |---|---|
-| CLIENTE | **dni (PK)**, nombre, apellidos, fecha_nac, tfno |
-| PRODUCTO | **codigo (PK)**, nombre, precio |
-| PROVEEDOR | **nif (PK)**, nombre, direccion |
+| CLIENTE | dni, nombre, apellidos, fecha_nac, tfno |
+| PRODUCTO | codigo, nombre, precio |
+| PROVEEDOR | nif, nombre, direccion |
+
+### 3. Marcar las claves primarias
+
+- **CLIENTE:** `dni` (PK).
+- **PRODUCTO:** `codigo` (PK).
+- **PROVEEDOR:** `nif` (PK).
+
 
 ### 4. Relaciones 1:N
 
@@ -116,7 +151,7 @@ No existen.
 
 No existen.
 
-### 8. Modelo relacional y restricciones
+### 8. Revisar los resultados: modelo relacional y restricciones
 
 ```text
 CLIENTE(dni, nombre, apellidos, fecha_nac, tfno)
@@ -144,12 +179,9 @@ COMPRA(dni_cliente, codigo_producto)
 
 Una pareja cliente-producto solo puede registrarse una vez; el modelo no contempla un historial de compras.
 
-```mermaid
-erDiagram
-    PROVEEDOR ||--|{ PRODUCTO : suministra
-    CLIENTE ||--o{ COMPRA : realiza
-    PRODUCTO ||--o{ COMPRA : incluye
-```
+#### Representación gráfica del modelo relacional
+
+![Modelo relacional del ejercicio 2](imagenes/ejercicio_2.png)
 
 ---
 
@@ -159,13 +191,20 @@ erDiagram
 
 PROFESOR, ALUMNO y MODULO.
 
-### 2 y 3. Crear las tablas y marcar las PK
+### 2. Crear las tablas e incluir sus atributos
 
 | Tabla | Atributos |
 |---|---|
-| PROFESOR | **dni (PK)**, nombre, direccion, tfno |
-| ALUMNO | **expediente (PK)**, nombre, apellidos, fecha_nac |
-| MODULO | **codigo (PK)**, nombre |
+| PROFESOR | dni, nombre, direccion, tfno |
+| ALUMNO | expediente, nombre, apellidos, fecha_nac |
+| MODULO | codigo, nombre |
+
+### 3. Marcar las claves primarias
+
+- **PROFESOR:** `dni` (PK).
+- **ALUMNO:** `expediente` (PK).
+- **MODULO:** `codigo` (PK).
+
 
 ### 4. Relaciones 1:N
 
@@ -183,7 +222,7 @@ No existen.
 
 **ES DELEGADO:** relación reflexiva 1:N. Un alumno puede ser delegado de cero o varios alumnos y cada alumno tiene un delegado. Se añade `expediente_delegado` a ALUMNO como FK que referencia a la propia tabla. No admite NULL según la cardinalidad indicada, ni debe ser UNIQUE, pues varios alumnos pueden compartir delegado. Si se permite que el delegado se represente a sí mismo, la FK puede apuntar al propio registro.
 
-### 8. Modelo relacional y restricciones
+### 8. Revisar los resultados: modelo relacional y restricciones
 
 ```text
 PROFESOR(dni, nombre, direccion, tfno)
@@ -213,13 +252,9 @@ CURSA(expediente_alumno, codigo_modulo)
 
 Si se quisiera permitir alumnos sin delegado, habría que modificar la cardinalidad y admitir NULL.
 
-```mermaid
-erDiagram
-    PROFESOR ||--|{ MODULO : imparte
-    ALUMNO ||--|{ CURSA : cursa
-    MODULO ||--|{ CURSA : incluye
-    ALUMNO ||--o{ ALUMNO : representa
-```
+#### Representación gráfica del modelo relacional
+
+![Modelo relacional del ejercicio 3](imagenes/ejercicio_3.png)
 
 ---
 
@@ -229,17 +264,24 @@ erDiagram
 
 CLIENTE, COCHE y REVISION.
 
-### 2 y 3. Crear las tablas y marcar las PK
+### 2. Crear las tablas e incluir sus atributos
 
 | Tabla | Atributos |
 |---|---|
-| CLIENTE | **nif (PK)**, nombre, direccion, ciudad, tfno |
-| COCHE | **matricula (PK)**, marca, modelo, color, precio |
-| REVISION | **codigo (PK)**, filtro, aceite, frenos |
+| CLIENTE | nif, nombre, direccion, ciudad, tfno |
+| COCHE | matricula, marca, modelo, color, precio |
+| REVISION | codigo, filtro, aceite, frenos |
+
+### 3. Marcar las claves primarias
+
+- **CLIENTE:** `nif` (PK).
+- **COCHE:** `matricula` (PK).
+- **REVISION:** `codigo` (PK).
+
 
 ### 4. Relaciones 1:N
 
-- **COMPRA:** un cliente compra uno o varios coches. Un coche puede tener cero o un comprador. Se añade `nif_cliente` a COCHE como FK que admite NULL.
+- **COMPRA:** un cliente compra uno o varios coches. Un coche puede tener cero o un comprador. Como la cardinalidad junto a CLIENTE es (0,1), se crea COMPRA siguiendo los apuntes. Su PK es `matricula_coche` (también FK) y `nif_cliente` es una FK obligatoria. Un coche sin vender no tendrá fila en COMPRA.
 - **PASA:** un coche puede pasar cero o varias revisiones y cada revisión corresponde a un único coche. Se añade `matricula_coche` a REVISION como FK obligatoria.
 
 ### 5. Relaciones N:M
@@ -254,14 +296,18 @@ No existen.
 
 No existen. REVISION no es una entidad débil, pues dispone de su propia PK.
 
-### 8. Modelo relacional y restricciones
+### 8. Revisar los resultados: modelo relacional y restricciones
 
 ```text
 CLIENTE(nif, nombre, direccion, ciudad, tfno)
     PK: nif
 
-COCHE(matricula, marca, modelo, color, precio, nif_cliente)
+COCHE(matricula, marca, modelo, color, precio)
     PK: matricula
+
+COMPRA(matricula_coche, nif_cliente)
+    PK: matricula_coche
+    FK: matricula_coche -> COCHE(matricula)
     FK: nif_cliente -> CLIENTE(nif)
 
 REVISION(codigo, filtro, aceite, frenos, matricula_coche)
@@ -271,16 +317,15 @@ REVISION(codigo, filtro, aceite, frenos, matricula_coche)
 
 | Atributo | Restricción |
 |---|---|
-| COCHE.nif_cliente | NULL |
+| COMPRA.matricula_coche | PK, FK, NOT NULL y único |
+| COMPRA.nif_cliente | FK, NOT NULL; puede repetirse |
 | REVISION.matricula_coche | NOT NULL |
 
-Ninguna FK debe ser UNIQUE, puesto que un cliente puede comprar varios coches y un coche puede pasar varias revisiones.
+La matrícula de COMPRA es única por ser PK: un coche no puede tener varios compradores. El NIF de COMPRA y la matrícula de REVISION pueden repetirse.
 
-```mermaid
-erDiagram
-    CLIENTE o|--|{ COCHE : compra
-    COCHE ||--o{ REVISION : pasa
-```
+#### Representación gráfica del modelo relacional
+
+![Modelo relacional del ejercicio 4](imagenes/ejercicio_4.png)
 
 ---
 
@@ -290,13 +335,20 @@ erDiagram
 
 MEDICO, INGRESO y PACIENTE.
 
-### 2 y 3. Crear las tablas y marcar las PK
+### 2. Crear las tablas e incluir sus atributos
 
 | Tabla | Atributos |
 |---|---|
-| MEDICO | **codigo (PK)**, nombre, apellidos |
-| INGRESO | **codigo (PK)**, habitacion |
-| PACIENTE | **codigo (PK)**, nombre, apellidos |
+| MEDICO | codigo, nombre, apellidos |
+| INGRESO | codigo, habitacion |
+| PACIENTE | codigo, nombre, apellidos |
+
+### 3. Marcar las claves primarias
+
+- **MEDICO:** `codigo` (PK).
+- **INGRESO:** `codigo` (PK).
+- **PACIENTE:** `codigo` (PK).
+
 
 ### 4. Relaciones 1:N
 
@@ -315,7 +367,7 @@ No existen.
 
 No existen. INGRESO tiene una PK propia y no es una entidad débil.
 
-### 8. Modelo relacional y restricciones
+### 8. Revisar los resultados: modelo relacional y restricciones
 
 ```text
 MEDICO(codigo, nombre, apellidos)
@@ -338,11 +390,9 @@ INGRESO(codigo, habitacion, fecha, codigo_medico, codigo_paciente)
 
 Ambas FKs pueden repetirse: un médico puede atender varios ingresos y un paciente puede ingresar varias veces.
 
-```mermaid
-erDiagram
-    MEDICO ||--o{ INGRESO : atiende
-    PACIENTE ||--|{ INGRESO : realiza
-```
+#### Representación gráfica del modelo relacional
+
+![Modelo relacional del ejercicio 5](imagenes/ejercicio_5.png)
 
 ---
 
@@ -352,13 +402,20 @@ erDiagram
 
 PRODUCTO, CLIENTE y PROVEEDOR.
 
-### 2 y 3. Crear las tablas y marcar las PK
+### 2. Crear las tablas e incluir sus atributos
 
 | Tabla | Atributos |
 |---|---|
-| PRODUCTO | **codigo (PK)**, descripcion, existencias, precio |
-| CLIENTE | **codigo (PK)**, nombre, apellidos, direccion, tfno |
-| PROVEEDOR | **codigo (PK)**, nombre, apellidos, direccion, tfno |
+| PRODUCTO | codigo, descripcion, existencias, precio |
+| CLIENTE | codigo, nombre, apellidos, direccion, tfno |
+| PROVEEDOR | codigo, nombre, apellidos, direccion, tfno |
+
+### 3. Marcar las claves primarias
+
+- **PRODUCTO:** `codigo` (PK).
+- **CLIENTE:** `codigo` (PK).
+- **PROVEEDOR:** `codigo` (PK).
+
 
 ### 4. Relaciones 1:N
 
@@ -377,7 +434,7 @@ No existen.
 
 No existen entidades débiles, relaciones reflexivas, jerarquías ni ternarias. Hay que conservar el atributo propio de COMPRA.
 
-### 8. Modelo relacional y restricciones
+### 8. Revisar los resultados: modelo relacional y restricciones
 
 ```text
 PRODUCTO(codigo, descripcion, existencias, precio)
@@ -410,13 +467,9 @@ SUMINISTRA(codigo_proveedor, codigo_producto)
 | Pareja de claves de COMPRA | Única |
 | Pareja de claves de SUMINISTRA | Única |
 
-```mermaid
-erDiagram
-    CLIENTE ||--o{ COMPRA : realiza
-    PRODUCTO ||--o{ COMPRA : incluye
-    PROVEEDOR ||--|{ SUMINISTRA : suministra
-    PRODUCTO ||--|{ SUMINISTRA : incluye
-```
+#### Representación gráfica del modelo relacional
+
+![Modelo relacional del ejercicio 6](imagenes/ejercicio_6.png)
 
 ### Consideración adicional: compras repetidas
 
@@ -453,24 +506,24 @@ Ambas alternativas son ampliaciones del modelo original.
 
 | Ejercicio | Entidades | Relaciones 1:N | Relaciones N:M | Tablas finales | Caso especial |
 |---|---:|---:|---:|---:|---|
-| 1. Transportes | 4 | 2 | 1 | 5 | FK opcional |
+| 1. Transportes | 4 | 2 | 1 | 6 | Tabla intermedia en 1:N opcional |
 | 2. Productos | 3 | 1 | 1 | 4 | — |
 | 3. Centro educativo | 3 | 2 | 1 | 4 | Relación reflexiva |
-| 4. Concesionario | 3 | 2 | 0 | 3 | FK opcional |
+| 4. Concesionario | 3 | 2 | 0 | 4 | Tabla intermedia en 1:N opcional |
 | 5. Hospital | 3 | 2 | 0 | 3 | Atributo trasladado al lado N |
 | 6. Gestión comercial | 3 | 0 | 2 | 5 | Atributo en relación N:M |
-| **Total** | **19** | **9** | **5** | **24** | |
+| **Total** | **19** | **9** | **5** | **26** | |
 
 ## Lista de comprobación para el alumnado
 
 - [ ] Todas las entidades se han transformado en tablas.
 - [ ] Todas las tablas tienen una PK.
-- [ ] Las relaciones 1:N se han resuelto colocando la FK en el lado N.
+- [ ] Las relaciones 1:N se han resuelto según la cardinalidad y el criterio de los apuntes.
 - [ ] Las relaciones N:M se han transformado en tablas intermedias.
 - [ ] Las FKs referencian claves primarias existentes.
 - [ ] Las PK compuestas garantizan la unicidad de sus combinaciones.
 - [ ] Las FKs obligatorias tienen NOT NULL.
-- [ ] Las FKs opcionales admiten NULL.
+- [ ] Las relaciones opcionales se han representado según los apuntes, sin introducir FKs nulas innecesarias.
 - [ ] Los atributos de las relaciones se han trasladado correctamente.
 - [ ] La relación reflexiva se ha resuelto mediante una FK a la propia tabla.
 
